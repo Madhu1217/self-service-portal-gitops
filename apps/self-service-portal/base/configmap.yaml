@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: self-service-portal-config
+  namespace: ssp
+
+  labels:
+    app.kubernetes.io/name: self-service-portal
+    app.kubernetes.io/component: backend
+
+data:
+  FLASK_ENV: "production"
+  PORT: "5000"
+
+  LOG_LEVEL: "INFO"
+
+  APP_NAME: "Self Service Portal"
+
+  GUNICORN_WORKERS: "2"
+
+  GUNICORN_TIMEOUT: "60"
+
+  TZ: "Asia/Kolkata"
