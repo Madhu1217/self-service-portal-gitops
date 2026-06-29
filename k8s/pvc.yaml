@@ -2,10 +2,12 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ssp-sqlite-pvc
-  namespace: ssp
 spec:
+  storageClassName: gp2
+
   accessModes:
     - ReadWriteOnce
+
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
