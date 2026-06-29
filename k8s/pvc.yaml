@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: ssp-sqlite-pvc
 spec:
-  storageClassName: gp2
+  storageClassName: gp3-csi
 
   accessModes:
     - ReadWriteOnce
 
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi
