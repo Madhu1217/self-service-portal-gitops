@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+
+metadata:
+  name: self-service-portal
+
+spec:
+  replicas: 3
+
+  revisionHistoryLimit: 5
+
+  selector:
+    matchLabels:
+      app: self-service-portal
+
+  template:
+    metadata:
+      labels:
+        app: self-service-portal
+
+    spec:
+      containers:
+        - name: self-service-portal
+
+          image: ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/self-service-portal:1.0.0
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 3000
+
+          env:
+            - name: NODE_ENV
+              value: production
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+
+            initialDelaySeconds: 30
+            periodSeconds: 20
+
+  strategy:
+    blueGreen:
+      activeService: ssp-active
+
+      previewService: ssp-preview
+
+      autoPromotionEnabled: false
+
+      scaleDownDelaySeconds: 30
